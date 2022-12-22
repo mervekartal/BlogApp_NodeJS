@@ -23,18 +23,18 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <form action="/blog" method="POST" class="tm-contact-form">
+        <form action="/posts" method="POST" class="tm-contact-form">
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Post Title</label>
-              <input type="text" class="form-control" placeholder="Title" id="title" required data-validation-required-message="Please enter title.">
+              <input type="text" class="form-control" placeholder="Title" name="title" required>
               <p class="help-block text-danger"></p>
             </div>
           </div>
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Post Detail</label>
-              <textarea rows="10" class="form-control" placeholder="Detail" id="detail" required data-validation-required-message="Please enter a detail."></textarea>
+              <textarea rows="8" class="form-control" placeholder="Detail" name="detail" required data-validation-required-message="Please enter a detail."></textarea>
               <p class="help-block text-danger"></p>
             </div>
           </div>
