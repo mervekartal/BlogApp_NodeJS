@@ -1,0 +1,55 @@
+<%- include('partials/_header') -%>
+
+<body>
+
+  <%- include('partials/_navigation') -%>
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('img/contact-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>Update Post Details</h1>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <form action="/posts/<%= post._id %>?_method=PUT" method="POST" class="tm-contact-form">
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Post Title</label>
+              <input type="text" class="form-control" placeholder="Title" name="title" value="<%= post.title %>" required>
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Post Detail</label>
+              <textarea rows="8" class="form-control" placeholder="Detail" name="detail" required data-validation-required-message="Please enter a detail."><%= post.detail %></textarea>
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <br>
+          <div id="success"></div>
+          <button type="submit" class="btn btn-success" id="sendMessageButton">Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <%- include('partials/_footer') -%>
+
+</body>
+
+</html>
