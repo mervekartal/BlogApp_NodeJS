@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 const path = require('path')
 const ejs = require('ejs')
 const methodOverride = require('method-override')
+const postController = require('./controllers/postController')
+const pageController = require('./controllers/pageController')
 
 
 const Post = require('./models/Post')
@@ -27,59 +29,17 @@ process.on('warning', (warning) => {
 })
 
 
-app.get('/', async (req, res) => {
-  const posts = await Post.find({})
-  res.render('index', {
-  posts
-  })
-})
+app.get('/', postController.getAllPosts) //index
+app.get('/posts/:id', postController.getPost) //post's single page
+app.post('/posts', postController.createPost) //add blog post - post operation
+app.put('/posts/:id', postController.updatePost) //update post
+app.delete('/posts/:id', postController.deletePost) //delete post
 
-app.get('/about', (req, res) => {
-    res.render('about')
-})
+//routing
+app.get('/about', pageController.getAboutPage) //about page
+app.get('/add_post', pageController.getAddPage) //add page
+app.get('/posts/edit/:id', pageController.getEditPage) //update page
 
-app.get('/posts/:id', async (req, res) => {
-  //console.log(req.params.id)
-  //res.render('about')
-  const post = await Post.findById(req.params.id)
-  res.render('post',{
-    post
-  })
-})
-
-app.get('/add_post', (req, res) => {
-    res.render('add_post')
-})
-  
-
-//add blog post - post operation
-app.post('/posts', async (req, res) => {
-  // console.log(req.body)
-  await Post.create(req.body)
-  res.redirect('/')
-})
-
-//update routing
-app.get('/posts/edit/:id', async (req, res) => {
-  const post = await Post.findOne({_id: req.params.id})
-  res.render('edit', {post})
-})
-
-//update post
-app.put('/posts/:id', async (req, res) => {
-  const post = await Post.findOne({_id: req.params.id})
-  post.title = req.body.title
-  post.detail = req.body.detail
-  post.save()
-
-  res.redirect(`/posts/${req.params.id}`)
-})
-
-//delete post
-app.delete('/posts/:id', async (req, res) => {
-  await Post.findByIdAndRemove(req.params.id)
-  res.redirect('/')
-})
 
 const port = 3000;
 app.listen(port, () => {
