@@ -1,10 +1,28 @@
 const Post = require('../models/Post')
 
+// exports.getAllPosts = async (req, res) => {
+//     const posts = await Post.find({}).sort('-dateCreated')
+//     res.render('index', {
+//     posts: posts
+//     })
+// }
+
+//pagination operations added: 
 exports.getAllPosts = async (req, res) => {
-    const posts = await Post.find({}).sort('-dateCreated')
+
+    const postsPerPage = 3 //bir sayfada görünen post sayısı
+    const page = req.query.page || 1 //requestten gelen sayfa no (eğer yoksa 1.sayfa yani anasayfa)
+    const totalPosts = await Post.find().countDocuments() //toplam post sayısı (db'deki documents sayısı)
+
+    const posts = await Post.find({}).sort('-dateCreated').skip((page-1)*postsPerPage).limit(postsPerPage)
+    
+    //postlar, bulunulan sayfa ve sayfa sayısı render ediliyor. 
     res.render('index', {
-    posts
-    })
+    posts: posts, 
+    current: page,
+    pages: Math.ceil(totalPosts / postsPerPage)
+ })
+
 }
 
 exports.getPost = async (req, res) => {
@@ -12,7 +30,7 @@ exports.getPost = async (req, res) => {
     //res.render('about')
     const post = await Post.findById(req.params.id)
     res.render('post',{
-      post
+      post: post
     })
 }
 
